@@ -2,9 +2,10 @@ package parser
 
 import (
 	"errors"
-	"go.uber.org/zap"
 	"regexp"
 	"strings"
+
+	"go.uber.org/zap"
 )
 
 // constants for commands
@@ -12,6 +13,12 @@ const (
 	SetCommand = "SET"
 	GetCommand = "GET"
 	DelCommand = "DEL"
+)
+
+const (
+	SetCommandArgCount = 3
+	GetCommandArgCount = 2
+	DelCommandArgCount = 2
 )
 
 var (
@@ -75,11 +82,15 @@ func (p *Parser) validateCommand(query []string) error {
 
 	switch command {
 	case SetCommand:
-		if len(query) != 3 {
+		if len(query) != SetCommandArgCount {
 			return ErrWrongLength
 		}
-	case GetCommand, DelCommand:
-		if len(query) != 2 {
+	case GetCommand:
+		if len(query) != GetCommandArgCount {
+			return ErrWrongLength
+		}
+	case DelCommand:
+		if len(query) != DelCommandArgCount {
 			return ErrWrongLength
 		}
 	default:
@@ -99,7 +110,7 @@ func (p *Parser) validateArguments(args []string) error {
 }
 
 func (p *Parser) ExecuteQuery(query []string) any {
-	command := strings.ToUpper(query[0])
+	command := query[0]
 
 	switch command {
 	case SetCommand:

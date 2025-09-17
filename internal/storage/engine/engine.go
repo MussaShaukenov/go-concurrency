@@ -2,6 +2,7 @@ package engine
 
 import (
 	"errors"
+
 	"go.uber.org/zap"
 )
 
@@ -35,12 +36,6 @@ func (e *Engine) Get(key any) (any, error) {
 }
 
 func (e *Engine) Delete(key any) error {
-	_, ok := e.storage[key]
-	if !ok {
-		e.logger.Warnf("attempted to delete non-existent key '%v'", key)
-		return ErrKeyNotFound
-	}
-
 	delete(e.storage, key)
 	e.logger.Infof("key '%v' deleted. Storage size: %d entries", key, len(e.storage))
 
