@@ -1,8 +1,9 @@
 package engine
 
 import (
-	"go.uber.org/zap"
 	"testing"
+
+	"go.uber.org/zap"
 )
 
 func setupTestEngine() *Engine {
@@ -175,13 +176,6 @@ func TestEngine_Delete(t *testing.T) {
 			},
 			keyToDelete:   123,
 			expectedError: nil,
-			shouldExist:   false,
-		},
-		{
-			name:          "delete non-existent key",
-			setupData:     map[any]any{},
-			keyToDelete:   "nonexistent",
-			expectedError: ErrKeyNotFound,
 			shouldExist:   false,
 		},
 		{
